@@ -6,15 +6,22 @@ namespace RPG.Avatars
 {
     abstract class Avatar
     {
+        AttackBehaviors.IAttackBehavior attackBehavior;
+        ShieldBehaviors.IShieldBehavior shieldBehavior;
+
         private string name;
         public string Name { get => name; }
 
-        protected int life = 100;
-        public int Life { get => life; }
+        public int Life { get; set; } = 100;
 
-        public Avatar(string name)
+        public Avatar(
+            string name, 
+            AttackBehaviors.IAttackBehavior attackBehavior, 
+            ShieldBehaviors.IShieldBehavior shieldBehavior)
         {
             this.name = name;
+            this.attackBehavior = attackBehavior;
+            this.shieldBehavior = shieldBehavior;
         }
 
         public void PrintStatus()
@@ -28,17 +35,31 @@ namespace RPG.Avatars
             }
         }
 
-        public virtual void Attack(Avatar target)
+        public void Attack(Avatar target)
         {
-            Console.WriteLine(Name + " hits " + target.Name + " with 5 damage");
-            target.doDamage(5);
+            attackBehavior.Attack(this, target);
         }
 
-        public virtual void doDamage(int damage)
+        public void doDamage(int damage)
         {
-            life -= damage;
+            shieldBehavior.DoDamage(damage, this);
         }
 
-        public abstract void Display();
+        public void SetWeapon(AttackBehaviors.IAttackBehavior attackBehavior)
+        {
+            this.attackBehavior = attackBehavior;
+        }
+
+        public void Display()
+        {
+            if(Life > 0)
+            {
+                Console.WriteLine("This is a " + Name + " with " + Life + " life");
+            } else
+            {
+                Console.WriteLine("This " + Name + " is dead!");
+            }
+            
+        }
     }
 }

@@ -23,6 +23,14 @@ namespace RPG
             mainMenu.AddOption('3', "Control Avatar", ControlAvatar);
             mainMenu.AddOption('4', "Attack Target", AttackTarget);
 
+            mainMenu.AddOption('5', "Equip Superior Sword", 
+                () => selected.SetWeapon(new AttackBehaviors.SuperiorSword(7))
+            );
+
+            mainMenu.AddOption('6', "Equip Superior Bow",
+                () => selected.SetWeapon(new AttackBehaviors.SuperiorBow(12))
+            );
+
             mainMenu.Start();
         }
 
