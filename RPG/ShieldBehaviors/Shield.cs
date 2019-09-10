@@ -16,7 +16,7 @@ namespace RPG.ShieldBehaviors
     public void DoDamage(int incoming, Avatars.Avatar target)
     {
         Console.WriteLine("The " + target.Name + "'s shield absorbs " + value);
-        target.Life -= incoming * value;
+        target.Life -= incoming - value;
     }
 }
 }
